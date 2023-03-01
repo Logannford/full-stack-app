@@ -36,12 +36,12 @@
 	import { createApp } from 'https://unpkg.com/petite-vue?module'
 	createApp({
 		/** data properties */
+		url: "https://random-data-api.com/api/users/random_user?size=1",
 		firstName: "",
 
 		async mounted(){
-			const url = "https://random-data-api.com/api/users/random_user?size=1";
 
-			const response = await fetch(url, {
+			const response = await fetch(this.url, {
 				method: "GET",
 				cors: "cors",
 				credentials: "same-origin",
