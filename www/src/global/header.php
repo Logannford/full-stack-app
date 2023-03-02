@@ -9,7 +9,9 @@
 		"php_docker"
 	);
 
-	if (!$connect)
+	if(!$connect){
+		echo("connection error");
 		die();
+	}
 	
 	$table_name = "main";

@@ -20,13 +20,19 @@
 	$response = mysqli_query($connect, $query);
 
 	//also ew no thanks no likey 
-	echo("<strong>$table_name:</strong>");
-	while($i = mysqli_fetch_assoc($response)){
-		echo("<p>".$i["name"]."</p>");
-		echo("<p>".$i["dob"]."</p>");
-		echo("<p>".$i["date_created"]."</p>");
-	}
-?>
+		echo("<strong>$table_name:</strong>");
+	?>
+	<div class="flex gap-x-6">
+			<?php
+				while($i = mysqli_fetch_assoc($response)): 
+					echo("<div>");
+					echo("<div>".$i["name"]."</div>");
+					echo("<div>".$i["dob"]."</div>");
+					echo("<div>".$i["date_created"]."</div>");
+					echo("</div>");
+				endwhile; 
+			?>
+	</div>
 
 
 <!-- 

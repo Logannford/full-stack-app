@@ -11,4 +11,5 @@
 		"INSERT INTO $table_name 
 		(name, dob, date_created) 
 		VALUES ('$person_name', '$person_dob', '$date_created')";
+		//add the $auery to the global $connect
 	mysqli_query($connect, $query);
