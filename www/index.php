@@ -25,11 +25,16 @@
 	echo("<strong>$table_name:</strong>");
 	while($i = mysqli_fetch_assoc($response)){
 		echo("<p>".$i["name"]."</p>");
+		echo("<p>".$i["dob"]."</p>");
 	}
 ?>
 
-<div @vue:mounted="mounted()" class="">
 
+
+<div @vue:mounted="mounted()" class="">
+	<div v-html="phpData" class="">
+
+	</div>
 </div>
 
 <script type="module">
@@ -38,12 +43,11 @@
 		/** data properties */
 		url: "https://random-data-api.com/api/users/random_user?size=1",
 		firstName: "",
+		phpData: "",
 
 		async mounted(){
-
 			const response = await fetch(this.url, {
 				method: "GET",
-				cors: "cors",
 				credentials: "same-origin",
 				headers: {
 					"content-type": "application/json"
@@ -54,7 +58,19 @@
 			this.firstName = person[0].first_name
 
 			console.log(this.firstName);
-		}	
+			
+			//send the first name to php
+			const phpFile = `http://localhost:8000/test.php?first_name=${this.firstName}`
+
+			const phpResponse = await fetch(phpFile, {
+				method: "GET",
+				headers: {
+					credentials: "same-origin"
+				}
+			})
+
+			this.phpData = await phpResponse.text();
+		}
 	}).mount()
 </script>
 
