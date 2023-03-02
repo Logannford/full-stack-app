@@ -23,15 +23,16 @@
 		echo("<strong>$table_name:</strong>");
 	?>
 	<div class="flex gap-x-6">
-			<?php
-				while($i = mysqli_fetch_assoc($response)): 
-					echo("<div>");
-					echo("<div>".$i["name"]."</div>");
-					echo("<div>".$i["dob"]."</div>");
-					echo("<div>".$i["date_created"]."</div>");
-					echo("</div>");
-				endwhile; 
-			?>
+		<?php
+			//obvs change this - just for testing
+			while($i = mysqli_fetch_assoc($response)): 
+				echo("<div>");
+				echo("<div>".$i["name"]."</div>");
+				echo("<div>".$i["dob"]."</div>");
+				echo("<div>".$i["date_created"]."</div>");
+				echo("</div>");
+			endwhile; 
+		?>
 	</div>
 
 
