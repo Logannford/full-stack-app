@@ -6,35 +6,38 @@
 	*/
 	//just adds the cdn globally (im lazy)
 	include "./src/global/header.php"; 
-	//lets do some connection tests first
+	include "./src/classes/class-connection.php";
 
-	//if no connection go bye bye
-	if(!$connect)
-		die();
-
-	//easier manipulate in the future
-	$table_name = "main";
-	//getting all of the values from the table with the name "main"
-	$query = ("SELECT * FROM $table_name");
-	//getting the response
-	$response = mysqli_query($connect, $query);
-
-	//also ew no thanks no likey 
-		echo("<strong>$table_name:</strong>");
 	?>
 	<div class="flex gap-x-6">
 		<?php
-			//obvs change this - just for testing
-			while($i = mysqli_fetch_assoc($response)): 
-				echo("<div>");
-				echo("<div>".$i["name"]."</div>");
-				echo("<div>".$i["dob"]."</div>");
-				echo("<div>".$i["date_created"]."</div>");
-				echo("</div>");
-			endwhile; 
+			//create a new object of the DbConfig class
+			$database = new DbConfig();
+
+			//lets make these methods of a class extending DbConfig - doing this for now
+			//select ALL from the main table
+			$sql = "SELECT * FROM main";
+			$result = mysqli_query($database->connection, $sql);
+
+			//if we get no result from the query, then an error has occurred
+			if(!$result)
+				die();
+			
+			while($row = mysqli_fetch_assoc($result))
+			//simply output all of the values in these rows
+			echo('ID: ' . $row["id"] . ' Name: ' . $row["name"] . '<br>');
+			
+			/* 
+				Free up the memory associated with the result
+				Failing to free the result set can cause memory leaks
+			*/
+			mysqli_free_result($result);	
+
+			//close the connection to the database - 
+			//needed as many open connections to the db can slow down site speed
+			mysqli_close($database->connection);
 		?>
 	</div>
-
 
 <!-- 
 	on load the mounted method will run 
@@ -89,14 +92,14 @@
 				//once we have done then, turn the response into text
 				})
 				.then((phpResponse) => {
-				return phpResponse.text();
+					return phpResponse.text();
 				})
 				.then((phpData) => {
-				this.phpData = phpData;
+					this.phpData = phpData;
 				})
 				//error any issues we have
 				.catch((error) => {
-				console.error(error);
+					console.error(error);
 				});
 		}
 	}).mount()
