@@ -8,11 +8,14 @@
 	$date_created = date("Y-m-d");
 	$table_name = "main";
 	
+	//this will insert the names and dob's got from the ajax on every page refresh
 	$sql_query = 
+		//we are inserting into the table name specified above
 		"INSERT INTO $table_name
 		(name, dob, date_created)
 		VALUES ('$person_name', '$person_dob', '$date_created')";
 
 	//query using a new DbConfig object
 	$db = new DbConfig();
+	//creating a new sqli query but passing in the query params and the db connection via the object created above
 	mysqli_query($db->connection, $sql_query);
