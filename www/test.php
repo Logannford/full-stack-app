@@ -1,6 +1,8 @@
 <?php
 	include "./src/global/header.php";
-	include "./src/classes/class-connection.php";
+	//if this file does not have access to the class, then include it
+	if(!class_exists("DbConfig"))
+		require_once("./src/classes/class-connection.php");
 	//everything inside this file will be outputted in the v-html
 	//stripping tags - make a function in the future to do what 'sanitize_text_field' does
 	$person_name = seo_friendly_url($_GET["first_name"]);
