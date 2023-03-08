@@ -40,7 +40,7 @@
 			mysqli_close($database->connection);
 
 			$test = new SqlQuery();
-			$test->select("main", "*");
+			$test->select("all", "main");
 		?>
 	</div>
 
@@ -56,7 +56,7 @@
 	import { createApp } from 'https://unpkg.com/petite-vue?module'
 	createApp({
 		/** data properties */
-		url: "https://random-data-api.com/api/users/random_user?size=0",
+		url: "https://random-data-api.com/api/users/random_user?size=1",
 		firstName: "",
 		person: {},
 		dob: "",

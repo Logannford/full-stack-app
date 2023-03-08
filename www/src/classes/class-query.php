@@ -19,10 +19,16 @@
 		 * 	using SELECT to select data from the db
 		 */
 
-		function select(string $table_name, string $data_select){
+		function select(string $data_select, string $table_name){
 			//setters
 			$this->table_name = $table_name;
 			$this->data_select = $data_select;
+
+			//allowing to enter "all" as a param in the select method
+			$this->data_select = "all" 
+				? $this->value = "*" 
+				: $this->value = $this->value;
+
 			//if no connection then adios 
 			if(!$this->connection)
 				die();
@@ -54,6 +60,7 @@
 
 			$this->table_name = $table_name;
 			$this->value = $value;
+			
 
 			//check the connection
 			if(!$this->connection)
@@ -65,7 +72,7 @@
 				VALUES ('test', '10/10/2010', 'date')
 				";
 
-			mysqli_query($this-connection, $db_query);
+		//	mysqli_query($this-connection, $db_query);
 			
 		}
 	}
