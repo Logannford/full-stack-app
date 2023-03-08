@@ -6,8 +6,10 @@
 	*/
 	//just adds the cdn globally (im lazy)
 	include "./src/global/header.php"; 
-	include "./src/classes/class-connection.php";
 
+	//including everything in the clases folder
+	foreach(glob("./src/classes/*.php") as $filename)
+		include $filename;
 	?>
 	<div class="flex gap-x-6">
 		<?php
@@ -25,7 +27,7 @@
 			
 			while($row = mysqli_fetch_assoc($result))
 			//simply output all of the values in these rows
-			echo('ID: ' . $row["id"] . ' Name: ' . $row["name"] . '<br>');
+				echo('ID: ' . $row["id"] . ' Name: ' . $row["name"] . '<br>');
 			
 			/* 
 				Free up the memory associated with the result
@@ -36,6 +38,9 @@
 			//close the connection to the database - 
 			//needed as many open connections to the db can slow down site speed
 			mysqli_close($database->connection);
+
+			$test = new SqlQuery();
+			$test->select("main", "*");
 		?>
 	</div>
 
@@ -51,7 +56,7 @@
 	import { createApp } from 'https://unpkg.com/petite-vue?module'
 	createApp({
 		/** data properties */
-		url: "https://random-data-api.com/api/users/random_user?size=1",
+		url: "https://random-data-api.com/api/users/random_user?size=0",
 		firstName: "",
 		person: {},
 		dob: "",
