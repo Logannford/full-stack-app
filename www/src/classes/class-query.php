@@ -12,8 +12,9 @@
 		 */
 		public $scope;
 
-		protected $data_select;
-		protected $table_name;
+		//set the properties to these defaults if they are not passed into $scope
+		protected $data_select = "*";
+		protected $table_name = "main";
 		protected $value;
 	
 		//optional filter - if empty then select all in that table
@@ -29,11 +30,11 @@
 		*/
 
 		function select(array $scope = []){
-			if($scope):
+			if(array_key_exists("table", $scope))
 				//setters
 				$this->table_name = $scope["table"];
+			if(array_key_exists("select", $scope))
 				$this->data_select = $scope["select"];
-			endif;
 			
 			if(!array_key_exists("filter", $scope))
 				$this->filter = null;
@@ -51,11 +52,6 @@
 
 			//setting some defaults so we can pass nothing in and still get
 			//stuff out
-			if(is_null($this->data_select))
-				$this->data_select = "*";
-			
-			if(is_null($this->table_name))
-				$this->table_name = "main";
 
 			//the db query
 			$db_query = 
