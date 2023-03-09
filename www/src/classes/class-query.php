@@ -47,7 +47,7 @@
 				die();		
 
 			//outputting the rows - return the data
-			$data_returning =  mysqli_fetch_assoc($query);
+			$data_to_be_returned =  mysqli_fetch_assoc($query);
 
 			//free up the memory
 			mysqli_free_result($query);
@@ -55,7 +55,7 @@
 			mysqli_close($this->connection);
 
 			//return the data that we have so we can use it
-			return $data_returning;
+			return $data_to_be_returned;
 		}
 
 		function insert(string $table_name, string $value){
