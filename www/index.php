@@ -42,9 +42,15 @@
 			//setting up the query
 			$select_all_test = new SqlQuery();
 			
+			$args = [
+				"select"		=> "all",
+				"table"			=> "main",
+				"filter"		=> "WHERE id=1"
+			];
+
 			//using the 'select' method and passing in 'SELECT * FROM main"
-			$data = $select_all_test->select("all", "main");
-			//now we have the data as an array
+			$data = $select_all_test->select($args);
+			
 			var_dump($data);
 		?>
 	</div>

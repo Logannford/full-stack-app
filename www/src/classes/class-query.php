@@ -9,6 +9,8 @@
 		protected $data_select;
 		protected $table_name;
 		protected $value;
+		protected $scope;
+		protected $filter;
 
 		public function __construct(){
 			//here we are calling the constructor of the 'DbConfig' class
@@ -17,12 +19,13 @@
 
 		/**		 
 		 * 	using SELECT to select data from the db
-		 */
+		*/
 
-		function select(string $data_select, string $table_name){
+		function select(array $scope){
 			//setters
-			$this->table_name = $table_name;
-			$this->data_select = $data_select;
+			$this->table_name = $scope["table"];
+			$this->data_select = $scope["select"];
+			$this->filter = $scope["filter"];
 
 			//allowing to enter "all" as a param in the select method
 			$this->data_select = "all" 
@@ -32,12 +35,16 @@
 			//if no connection then adios 
 			if(!$this->connection)
 				die();
-			//check setters aren't null
+			//check setters that aren't optional aren't null
 			if(is_null($this->data_select) || is_null($this->table_name))
 				die();
 
 			//the db query
-			$db_query = "SELECT {$this->data_select} FROM {$this->table_name}";
+			$db_query = 
+				"SELECT {$this->data_select} 
+				FROM 
+				{$this->table_name} 
+				{$this->filter}";
 
 			//the sql query 
 			$query = mysqli_query($this->connection, $db_query);
@@ -46,8 +53,12 @@
 			if(!$query)
 				die();		
 
-			//outputting the rows - return the data
-			$data_to_be_returned =  mysqli_fetch_assoc($query);
+			//setting the data to be outputted
+			$data_to_be_returned = [];
+			
+			//loop over all fields in the db
+			while($row = mysqli_fetch_assoc($query))
+				$data_to_be_returned[] = $row;
 
 			//free up the memory
 			mysqli_free_result($query);
