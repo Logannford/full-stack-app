@@ -6,8 +6,8 @@
 
 	class SqlQuery extends DbConfig{
 
-		public $data_select;
-		public $table_name;
+		protected $data_select;
+		protected $table_name;
 		protected $value;
 
 		public function __construct(){
@@ -37,31 +37,33 @@
 				die();
 
 			//the db query
-			$db_query = "SELECT {$this->data_select} FROM " . $this->table_name;
+			$db_query = "SELECT {$this->data_select} FROM {$this->table_name}";
 
 			//the sql query 
 			$query = mysqli_query($this->connection, $db_query);
 			
 			//if no query go bye bye
 			if(!$query)
-				die();			
-			//outputting the rows
-			while($row = mysqli_fetch_assoc($query)):
-				echo('ID: ' . $row["id"] . ' Name: ' . $row["name"] . '<br>');
-			endwhile;
-				//free up the memory
+				die();		
+
+			//outputting the rows - return the data
+			$data_returning =  mysqli_fetch_assoc($query);
+
+			//free up the memory
 			mysqli_free_result($query);
 			//close the connection to the db
 			mysqli_close($this->connection);
-		}
 
+			//return the data that we have so we can use it
+			return $data_returning;
+		}
 
 		function insert(string $table_name, string $value){
 
+			//setters
 			$this->table_name = $table_name;
 			$this->value = $value;
 			
-
 			//check the connection
 			if(!$this->connection)
 				die();

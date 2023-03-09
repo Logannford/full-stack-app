@@ -39,8 +39,13 @@
 			//needed as many open connections to the db can slow down site speed
 			mysqli_close($database->connection);
 
-			$test = new SqlQuery();
-			$test->select("all", "main");
+			//setting up the query
+			$select_all_test = new SqlQuery();
+			
+			//using the 'select' method and passing in 'SELECT * FROM main"
+			$data = $select_all_test->select("all", "main");
+			//now we have the data as an array
+			var_dump($data);
 		?>
 	</div>
 
@@ -56,7 +61,7 @@
 	import { createApp } from 'https://unpkg.com/petite-vue?module'
 	createApp({
 		/** data properties */
-		url: "https://random-data-api.com/api/users/random_user?size=1",
+		url: "https://random-data-api.com/api/users/random_user?size=0",
 		firstName: "",
 		person: {},
 		dob: "",
