@@ -6,11 +6,18 @@
 
 	class SqlQuery extends DbConfig{
 
+		/**
+		 * The array which is passed into the methods 
+		 * which then set the params for the method
+		 */
+		public $scope;
+
 		protected $data_select;
 		protected $table_name;
 		protected $value;
-		protected $scope;
-		protected $filter;
+	
+		//optional filter - if empty then select all in that table
+		public $filter = "";
 
 		public function __construct(){
 			//here we are calling the constructor of the 'DbConfig' class
@@ -21,11 +28,17 @@
 		 * 	using SELECT to select data from the db
 		*/
 
-		function select(array $scope){
-			//setters
-			$this->table_name = $scope["table"];
-			$this->data_select = $scope["select"];
-			$this->filter = $scope["filter"];
+		function select(array $scope = []){
+			if($scope):
+				//setters
+				$this->table_name = $scope["table"];
+				$this->data_select = $scope["select"];
+			endif;
+			
+			if(!array_key_exists("filter", $scope))
+				$this->filter = null;
+			else
+				$this->filter = $scope["filter"];
 
 			//allowing to enter "all" as a param in the select method
 			$this->data_select = "all" 
@@ -35,9 +48,14 @@
 			//if no connection then adios 
 			if(!$this->connection)
 				die();
-			//check setters that aren't optional aren't null
-			if(is_null($this->data_select) || is_null($this->table_name))
-				die();
+
+			//setting some defaults so we can pass nothing in and still get
+			//stuff out
+			if(is_null($this->data_select))
+				$this->data_select = "*";
+			
+			if(is_null($this->table_name))
+				$this->table_name = "main";
 
 			//the db query
 			$db_query = 

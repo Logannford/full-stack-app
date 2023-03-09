@@ -13,40 +13,13 @@
 	?>
 	<div class="flex gap-x-6">
 		<?php
-			//create a new object of the DbConfig class
-			$database = new DbConfig();
-
-			//lets make these methods of a class extending DbConfig - doing this for now
-			//select ALL from the main table
-			$sql = "SELECT * FROM main";
-			$result = mysqli_query($database->connection, $sql);
-
-			//if we get no result from the query, then an error has occurred
-			if(!$result)
-				die();
-			
-			while($row = mysqli_fetch_assoc($result))
-			//simply output all of the values in these rows
-				echo('ID: ' . $row["id"] . ' Name: ' . $row["name"] . '<br>');
-			
-			/* 
-				Free up the memory associated with the result
-				Failing to free the result set can cause memory leaks
-			*/
-			mysqli_free_result($result);	
-
-			//close the connection to the database - 
-			//needed as many open connections to the db can slow down site speed
-			mysqli_close($database->connection);
-
-			//setting up the query
-			$select_all_test = new SqlQuery();
-			
+			//$args for the select query
 			$args = [
 				"select"		=> "all",
-				"table"			=> "main",
-				"filter"		=> "WHERE id=1"
+				"table"			=> "main"
 			];
+			//setting up the query
+			$select_all_test = new SqlQuery();
 
 			//using the 'select' method and passing in 'SELECT * FROM main"
 			$data = $select_all_test->select($args);
