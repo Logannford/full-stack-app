@@ -28,6 +28,27 @@
 		?>
 	</div>
 
+	<div class="w-full flex justify-center mt-20">
+		<form 
+			class="flex flex-col"
+			@submit.prevent
+			@submit="signUpFormDetails()"
+		>
+			<label for="name">Name</label>
+			<input 
+				class="border border-black" 
+				type="text" 
+				id="name"
+				v-model="signUpName"
+			>
+
+			<button type="submit" class="border border-black rounded-md mt-4">
+				Submit
+			</button>
+		</form>
+		<div v-if="loading" class="border border-black w-5 h-5 rounded-full"></div>
+	</div>
+
 <!-- 
 	on load the mounted method will run 
 	'v-html' will output the test.php in html
@@ -36,18 +57,29 @@
 	<div v-html="phpData" class=""></div>	
 </div>
 
+<div v-html="auth"></div>
+
 <script type="module">
 	import { createApp } from 'https://unpkg.com/petite-vue?module'
 	createApp({
 		/** data properties */
-		url: "https://random-data-api.com/api/users/random_user?size=0",
+		randomDataUrl: "https://random-data-api.com/api/users/random_user?size=1", 
 		firstName: "",
 		person: {},
 		dob: "",
 		phpData: "",
 
+		//just set the url globally
+		url: "http://localhost:8000",
+
+		//getting the name from sign up
+		signUpName: "",
+		loading: false,
+		auth: "",
+
+		/* methods */
 		mounted(){
-			fetch(this.url, {
+			fetch(this.randomDataUrl, {
 				method: "GET",
 				credentials: "same-origin",
 				headers: {
@@ -69,13 +101,15 @@
 				//dob = 
 				this.dob = this.person[0].date_of_birth;
 				
-				//writing to the php file - using the site url, and passing in the values
-				//we want in the db
-				const phpFile = `http://localhost:8000/test.php?first_name=${this.firstName}&dob=${this.dob}`;
+				/*
+					writing to the php file - using the site url, and passing in the values
+					we want in the db
+				*/
+				const phpFile = `${this.url}/test.php?function=test&first_name=${this.firstName}&dob=${this.dob}`;
 				return fetch(phpFile, {
 					method: "GET",
 					headers: {
-					credentials: "same-origin"
+						credentials: "same-origin"
 					}
 				});
 				//once we have done then, turn the response into text
@@ -90,7 +124,27 @@
 				.catch((error) => {
 					console.error(error);
 				});
-		}
+			},
+
+			signUpFormDetails(){
+				const signUpUrl = `${this.url}/test.php?function=add_new_user_to_db&username=${this.signUpName}`;
+
+				fetch(signUpUrl, {
+					method: "GET",
+					headers: {
+						credentials: "same-origin"
+					}
+				})
+
+				.then((response) => {
+					if(response.ok)
+						return response.text();
+				})
+
+				.then((auth) => {
+					this.auth = auth;
+				})
+			}
 	}).mount()
 </script>
 

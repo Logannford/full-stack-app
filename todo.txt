@@ -1,0 +1,23 @@
+Find a way to export the sql db on docker-compose down
+
+make more args to pass into the $scope to use in select method
+	- order dob?
+	- order date created?
+
+find a nice way to output all of the data that we get back from the select method
+
+make sure the select method is secure
+
+make the seo_friendly_url function more secure and robust
+
+create a sign up page which will use ajax to send over the credentials
+	- remember to use $_GET to get them from the url
+	- then send a 2FA email on sign up 
+		- generate a rnd code for the user which expires after x amount of time
+	- get a nice loader for the ajax cos we're fancy
+	- create a new class for the user
+		- create a new table for them on sign up?
+		- will need to create connections between them and other users when they become friends
+
+then a login in functionality 
+	- if no email is found in the db then redirect to the sign up page
