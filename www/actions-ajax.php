@@ -2,9 +2,13 @@
 	// Treating this file as a custom-actions-ajax
 
 	include "./src/global/header.php";
-	//if this file does not have access to the class, then include it
+	
+	//including all of the classes that we need - will make a better way of doing this in the future
 	if(!class_exists("DbConfig"))
-	require_once("./src/classes/class-connection.php");
+		require_once("./src/classes/class-connection.php");
+
+	if(!class_exists("SqlQuery"))
+		require_once("./src/classes/class-query.php");
 
 	//checking which function the ajax is requesting
 	if(isset($_GET["function"])){
@@ -52,8 +56,12 @@
 		if(is_null($username) || is_null($password))
 			return false;
 
-		
+		//set up some args for the user_exists check
+		$args = [
+			"table_name"		=> "users"
+		];
 
 		//lets check here if the user already exists before creating a new user object
-
+		$database_connection = new SqlQuery();
+		$user_exists = $database_connection->user_exists($args);
 	}

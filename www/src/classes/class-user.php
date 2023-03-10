@@ -8,7 +8,7 @@
 		protected $email_address;
 
 		//make sure password is some-what secure
-		private $password;
+		protected $password;
 
 		public function __construct($username, $email_address, $password){
 			// create a connection on construct

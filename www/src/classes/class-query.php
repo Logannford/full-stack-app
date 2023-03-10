@@ -45,7 +45,6 @@
 			$this->data_select = "all" 
 				? $this->value = "*" 
 				: $this->value = $this->value;
-
 			//if no connection then adios 
 			if(!$this->connection)
 				die();
@@ -62,21 +61,16 @@
 
 			//the sql query 
 			$query = mysqli_query($this->connection, $db_query);
-			
 			//if no query go bye bye
 			if(!$query)
 				die();		
 
-			//setting the data to be outputted
 			$data_to_be_returned = [];
-			
-			//loop over all fields in the db
 			while($row = mysqli_fetch_assoc($query))
 				$data_to_be_returned[] = $row;
 
 			//free up the memory
 			mysqli_free_result($query);
-			//close the connection to the db
 			mysqli_close($this->connection);
 
 			//return the data that we have so we can use it
@@ -103,7 +97,30 @@
 			
 		}
 
-		function check_user_exists(array $args){
+		/**
+		 * Checks a given database for if a user with either
+		 * the same username or email exists
+		 */
+		function user_exists(array $args){
+			if(!$args || !$this->connection)
+				die();
 
+			$this->table_name = $args["table_name"];
+			//query
+			$db_query = "SELECT * FROM {$this->table_name}";
+			$query = mysqli_query($this->connection, $db_query);
+
+			//empty array for the data 
+			$data = [];
+			while($row = mysqli_fetch_assoc($query))
+				$data[] = $row;
+
+			//now we have the data - lets check inside the array it returns
+
+			//free and close 
+			mysqli_free_result($query);
+			mysqli_close($this->connection);
+			
+			return $data;
 		}
 	}
