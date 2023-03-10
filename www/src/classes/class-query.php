@@ -102,4 +102,8 @@
 		//	mysqli_query($this-connection, $db_query);
 			
 		}
+
+		function check_user_exists(array $args){
+
+		}
 	}

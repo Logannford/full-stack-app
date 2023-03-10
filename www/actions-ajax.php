@@ -49,10 +49,11 @@
 
 
 		//if the return value is null - throw an error which will throw an error on the front end
-		if(is_null($username))
+		if(is_null($username) || is_null($password))
 			return false;
 
-		echo("Username: {$username}");
-		echo("<br>");
-		echo("Password: {$password}");
+		
+
+		//lets check here if the user already exists before creating a new user object
+
 	}
