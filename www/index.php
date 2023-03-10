@@ -44,6 +44,15 @@
 					required
 				>
 
+				<label for="password">Password</label>
+				<input 
+					class="border border-black" 
+					type="password" 
+					id="password"
+					v-model="signUpPassword"
+					required
+				>
+
 				<button type="submit" class="border border-black rounded-md mt-4">
 					Submit
 				</button>
@@ -82,6 +91,7 @@
 
 		//getting the name from sign up
 		signUpName: "",
+		signUpPassword: "",
 		loading: false,
 		auth: "",
 
@@ -135,7 +145,13 @@
 			},
 
 			signUpFormDetails(){
-				const signUpUrl = `${this.url}/actions-ajax.php?function=add_new_user_to_db&username=${this.signUpName}`;
+				const signUpUrl = `
+					${this.url}
+					/actions-ajax.php
+					?function=add_new_user_to_db
+					&username=${this.signUpName}
+					&password=${this.signUpPassword}
+				`;
 
 				//start the loading spinner
 				this.loading = true;

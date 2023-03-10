@@ -43,13 +43,16 @@
 	 */
 	function add_new_user_to_db(){
 		//check no bad things in the username
-		$firstname = sanitize_string($_GET["username"]);
-
+		$username = sanitize_string($_GET["username"]);
+		$password = sanitize_string($_GET["password"]);
 		//create a
 
 
 		//if the return value is null - throw an error which will throw an error on the front end
-		if(is_null($firstname))
+		if(is_null($username))
 			return false;
 
+		echo("Username: {$username}");
+		echo("<br>");
+		echo("Password: {$password}");
 	}
