@@ -22,32 +22,40 @@
 			$select_all_test = new SqlQuery();
 
 			//using the 'select' method and passing in 'SELECT * FROM main"
-			$data = $select_all_test->select($args);
+			$data = $select_all_test->select();
 			
-			var_dump($data);
+			//var_dump($data);
 		?>
 	</div>
 
-	<div class="w-full flex justify-center mt-20">
-		<form 
-			class="flex flex-col"
-			@submit.prevent
-			@submit="signUpFormDetails()"
-		>
-			<label for="name">Name</label>
-			<input 
-				class="border border-black" 
-				type="text" 
-				id="name"
-				v-model="signUpName"
+	<div class="flex flex-col">
+		<div class="w-full flex justify-center mt-20" v-if="!loading">
+			<form 
+				class="flex flex-col"
+				@submit.prevent
+				@submit="signUpFormDetails()"
 			>
+				<label for="name">Name</label>
+				<input 
+					class="border border-black" 
+					type="text" 
+					id="name"
+					v-model="signUpName"
+					required
+				>
 
-			<button type="submit" class="border border-black rounded-md mt-4">
-				Submit
-			</button>
-		</form>
-		<div v-if="loading" class="border border-black w-5 h-5 rounded-full"></div>
+				<button type="submit" class="border border-black rounded-md mt-4">
+					Submit
+				</button>
+			</form>
+		</div>
+
+		<!-- loading -->
+		<div class="w-full flex justify-center">
+			<div v-if="loading" class="border border-black w-5 h-5 rounded-full"></div>
+		</div>
 	</div>
+
 
 <!-- 
 	on load the mounted method will run 
@@ -63,7 +71,7 @@
 	import { createApp } from 'https://unpkg.com/petite-vue?module'
 	createApp({
 		/** data properties */
-		randomDataUrl: "https://random-data-api.com/api/users/random_user?size=0", 
+		randomDataUrl: "https://random-data-api.com/api/users/random_user?size=1", 
 		firstName: "",
 		person: {},
 		dob: "",

@@ -3,17 +3,20 @@
 
 	include "./src/global/header.php";
 	//if this file does not have access to the class, then include it
+	if(!class_exists("DbConfig"))
+	require_once("./src/classes/class-connection.php");
 
+	//checking which function the ajax is requesting
 	if(isset($_GET["function"])){
 		$function_name = $_GET["function"];
 		if(function_exists($function_name))
 			$function_name();
 	}
 	
+	/**
+	 * Just a test function to insert data into the db
+	 */
 	function test(){
-		if(!class_exists("DbConfig"))
-			require_once("./src/classes/class-connection.php")
-			;
 		//everything inside this file will be outputted in the v-html
 		//stripping tags - make a function in the future to do what 'sanitize_text_field' does
 		$person_name = sanitize_string($_GET["first_name"]);
@@ -39,5 +42,14 @@
 	 * then create a new 'insert' method on a new DbConfig class
 	 */
 	function add_new_user_to_db(){
-		echo("worked");
+		//check no bad things in the username
+		$firstname = sanitize_string($_GET["username"]);
+
+		//create a
+
+
+		//if the return value is null - throw an error which will throw an error on the front end
+		if(is_null($firstname))
+			return false;
+
 	}

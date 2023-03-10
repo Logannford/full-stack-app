@@ -6,6 +6,10 @@
  * SQL injection
  */
 function sanitize_string(string $string) {
+
+	if(is_null($string))
+		return;
+		
 	//check if the string contains the special characters
 	if(!preg_match("/[<>\/\'$]/", $string))
         // If not, capitalize the first letter and return
