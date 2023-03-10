@@ -63,7 +63,7 @@
 	import { createApp } from 'https://unpkg.com/petite-vue?module'
 	createApp({
 		/** data properties */
-		randomDataUrl: "https://random-data-api.com/api/users/random_user?size=1", 
+		randomDataUrl: "https://random-data-api.com/api/users/random_user?size=0", 
 		firstName: "",
 		person: {},
 		dob: "",
@@ -101,17 +101,17 @@
 				//dob = 
 				this.dob = this.person[0].date_of_birth;
 				
-				/*
-					writing to the php file - using the site url, and passing in the values
-					we want in the db
-				*/
-				const phpFile = `${this.url}/test.php?function=test&first_name=${this.firstName}&dob=${this.dob}`;
-				return fetch(phpFile, {
-					method: "GET",
-					headers: {
-						credentials: "same-origin"
-					}
-				});
+					/*
+						writing to the php file - using the site url, and passing in the values
+						we want in the db
+					*/
+					const phpFile = `${this.url}/actions-ajax.php?function=test&first_name=${this.firstName}&dob=${this.dob}`;
+					return fetch(phpFile, {
+						method: "GET",
+						headers: {
+							credentials: "same-origin"
+						}
+					});
 				//once we have done then, turn the response into text
 				})
 				.then((phpResponse) => {
@@ -127,22 +127,27 @@
 			},
 
 			signUpFormDetails(){
-				const signUpUrl = `${this.url}/test.php?function=add_new_user_to_db&username=${this.signUpName}`;
+				const signUpUrl = `${this.url}/actions-ajax.php?function=add_new_user_to_db&username=${this.signUpName}`;
+
+				//start the loading spinner
+				this.loading = true;
 
 				fetch(signUpUrl, {
 					method: "GET",
 					headers: {
 						credentials: "same-origin"
 					}
+				}).catch((error) => {
+					console.error(error);
 				})
 
 				.then((response) => {
-					if(response.ok)
-						return response.text();
+					return response.text();
 				})
 
 				.then((auth) => {
 					this.auth = auth;
+					this.loading = false;
 				})
 			}
 	}).mount()

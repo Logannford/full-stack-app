@@ -34,7 +34,10 @@
 		mysqli_query($db->connection, $sql_query);
 	}
 
-	
+	/**
+	 * This function needs to first strip the tags of any malicious things
+	 * then create a new 'insert' method on a new DbConfig class
+	 */
 	function add_new_user_to_db(){
-		echo "worked";
+		echo("worked");
 	}
