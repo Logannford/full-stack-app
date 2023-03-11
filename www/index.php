@@ -24,7 +24,7 @@
 			//using the 'select' method and passing in 'SELECT * FROM main"
 			$data = $select_all_test->select($args);
 			
-			//var_dump($data);
+			var_dump($data);
 		?>
 	</div>
 
