@@ -106,12 +106,12 @@
 
 			//make a bool for if the user has been found
 			$username_exists = false;
-
 			if(!$args || !$this->connection)
 				die();
 
 			$this->table_name = $args["table_name"];
-			$this->username = $args["username"];
+			$this->username = sanitize_string($args["username"]);
+
 			//query
 			$db_query = "SELECT * FROM {$this->table_name}";
 			$query = mysqli_query($this->connection, $db_query);
@@ -127,9 +127,9 @@
 			if(is_null($username_row))
 				return;
 
-			if(in_array($this->username, $username_row))
-				$username_exists = true;
-			
+			//lets make a way to suggest potential usernames if the username exists
+			if(in_array($this->username, $username_row, true))
+				return true;
 			
 			//free and close 
 			mysqli_free_result($query);

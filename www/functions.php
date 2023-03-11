@@ -1,4 +1,6 @@
 <?php
+	if(!class_exists("SqlQuery"))
+		require_once("./src/classes/class-query.php");
 /**
  * @param string $string
  * 
@@ -18,6 +20,30 @@ function sanitize_string(string $string) {
     // Otherwise, remove the special characters and capitalize the first letter
 	$string = strtolower(str_replace(["<", ">", "/", "\'", "$"], '', $string));
 	return ucfirst($string);
+}
+
+function suggest_new_username(string $username){
+	if(!$username)
+		return;
+	
+	$valid_new_username = false;
+	while($valid_new_username == false){
+		$username = "$username" . rand(0, 2000);
+
+		$args = [
+			"table_name"		=> "users",
+			"username"			=> $username
+		];
+
+		$username_checker = new SqlQuery();
+		$username_checker = $username_checker->user_exists($args);
+		
+		($username_checker)	
+			? $valid_new_username = false
+			: $username_checker = true;
+	}
+
+	return $username;
 }
 
 //open to the end of time

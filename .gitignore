@@ -3,3 +3,6 @@
 
 ## ignore the db folder
 /db
+
+## ignore todo
+todo.txt

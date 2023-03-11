@@ -66,8 +66,14 @@
 		$database_connection = new SqlQuery();
 		$user_exists = $database_connection->user_exists($args);
 
-		if($user_exists)
-			echo("sorry that username is taken");
-		else	
-			echo("success");
+		if($user_exists){
+			// this function will make a new username until there is one not already in the db
+			echo(suggest_new_username($username));
+			echo("<br>");
+			echo("sorry that username is taken, why not try?");
+			return;
+		}
+		
+		//$enter_user_to_db = new User();
+		//$enter_user_to_db = $enter_user_to_db->sign_user_up();
 	}
