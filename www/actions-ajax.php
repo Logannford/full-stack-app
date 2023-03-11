@@ -68,9 +68,9 @@
 
 		if($user_exists){
 			// this function will make a new username until there is one not already in the db
-			echo(suggest_new_username($username));
-			echo("<br>");
 			echo("sorry that username is taken, why not try?");
+			echo("<br>");
+			echo(suggest_new_username($username));
 			return;
 		}
 		else
