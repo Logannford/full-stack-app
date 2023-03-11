@@ -58,10 +58,16 @@
 
 		//set up some args for the user_exists check
 		$args = [
-			"table_name"		=> "users"
+			"table_name"		=> "users",
+			"username"			=> $username
 		];
 
 		//lets check here if the user already exists before creating a new user object
 		$database_connection = new SqlQuery();
 		$user_exists = $database_connection->user_exists($args);
+
+		if($user_exists)
+			echo("sorry that username is taken");
+		else	
+			echo("success");
 	}

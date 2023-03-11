@@ -11,6 +11,7 @@
 		 * which then set the params for the method
 		 */
 		public $scope;
+		public $username;
 
 		//set the properties to these defaults if they are not passed into $scope
 		protected $data_select = "*";
@@ -102,10 +103,15 @@
 		 * the same username or email exists
 		 */
 		function user_exists(array $args){
+
+			//make a bool for if the user has been found
+			$username_exists = false;
+
 			if(!$args || !$this->connection)
 				die();
 
 			$this->table_name = $args["table_name"];
+			$this->username = $args["username"];
 			//query
 			$db_query = "SELECT * FROM {$this->table_name}";
 			$query = mysqli_query($this->connection, $db_query);
@@ -116,11 +122,19 @@
 				$data[] = $row;
 
 			//now we have the data - lets check inside the array it returns
+			$username_row = array_column($data, "name");
 
+			if(is_null($username_row))
+				return;
+
+			if(in_array($this->username, $username_row))
+				$username_exists = true;
+			
+			
 			//free and close 
 			mysqli_free_result($query);
 			mysqli_close($this->connection);
 			
-			return $data;
+			return $username_exists;
 		}
 	}

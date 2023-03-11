@@ -22,7 +22,7 @@
 			$select_all_test = new SqlQuery();
 
 			//using the 'select' method and passing in 'SELECT * FROM main"
-			$data = $select_all_test->select();
+			$data = $select_all_test->select($args);
 			
 			//var_dump($data);
 		?>
@@ -60,8 +60,8 @@
 		</div>
 
 		<!-- loading -->
-		<div class="w-full flex justify-center">
-			<div v-if="loading" class="border border-black w-5 h-5 rounded-full"></div>
+		<div v-if="loading" v-cloak class="w-full flex justify-center">
+			<div class="border border-black w-5 h-5 rounded-full"></div>
 		</div>
 	</div>
 
@@ -176,4 +176,10 @@
 			}
 	}).mount()
 </script>
+
+<style>
+	[v-cloak] {
+		display: none;
+	}
+</style>
 
