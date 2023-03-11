@@ -4,6 +4,7 @@
 	 * i.e ALTER, INSERT etc etc
 	*/
 
+	require_once("class-connection.php");
 	class SqlQuery extends DbConfig{
 
 		/**

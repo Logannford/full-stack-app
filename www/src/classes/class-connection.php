@@ -35,7 +35,7 @@
 				);
 				//if any error is caught - throw this
 			}catch (Exception $e){
-				echo("there was an error connecting to the db");
+				echo("there was an error connecting to the db" . $e);
 				die();
 			}
 		}

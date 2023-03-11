@@ -32,6 +32,6 @@
 		 * @return bool
 		 */
 		public function sign_user_up(){
-
+			
 		}
 	}

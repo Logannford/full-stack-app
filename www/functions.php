@@ -1,5 +1,6 @@
 <?php
-	if(!class_exists("SqlQuery"))
+	
+	if(class_exists("SqlQuery"))
 		require_once("./src/classes/class-query.php");
 /**
  * @param string $string
@@ -22,28 +23,40 @@ function sanitize_string(string $string) {
 	return ucfirst($string);
 }
 
+/**
+ * Will try to make a new username until it finds one not in the db
+ * 
+ */
 function suggest_new_username(string $username){
-	if(!$username)
-		return;
-	
-	$valid_new_username = false;
-	while($valid_new_username == false){
-		$username = "$username" . rand(0, 2000);
+    if(!$username)
+        return;
 
-		$args = [
-			"table_name"		=> "users",
-			"username"			=> $username
-		];
+    $username_checker = new SqlQuery();
 
-		$username_checker = new SqlQuery();
-		$username_checker = $username_checker->user_exists($args);
-		
-		($username_checker)	
-			? $valid_new_username = false
-			: $username_checker = true;
-	}
+    $valid_new_username = false;
+	/**
+	 * fine for now - eventually use this api - https://random-word-api.herokuapp.com/word?number=10
+	 * and generate three new usernames
+	 */
+    while($valid_new_username == false){
+        $new_username = "$username" . rand(0, 2000);
 
-	return $username;
+        $args = [
+            "table_name"    => "users",
+            "username"      => $new_username
+        ];
+
+        $username_exists = $username_checker->user_exists($args);
+
+        if($username_exists) 
+            $valid_new_username = false;
+        else {
+            $valid_new_username = true;
+            $username = $new_username;
+        }
+    }
+
+    return $username;
 }
 
 //open to the end of time

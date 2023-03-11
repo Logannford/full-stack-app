@@ -73,6 +73,8 @@
 			echo("sorry that username is taken, why not try?");
 			return;
 		}
+		else
+			echo("Success!");
 		
 		//$enter_user_to_db = new User();
 		//$enter_user_to_db = $enter_user_to_db->sign_user_up();

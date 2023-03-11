@@ -2,7 +2,7 @@
 
 <?php
 	//include the functions
-	include "functions.php";
+	require_once("functions.php");
 ?>
 
 <style>
