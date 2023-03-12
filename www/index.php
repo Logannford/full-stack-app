@@ -24,7 +24,7 @@
 			//using the 'select' method and passing in 'SELECT * FROM main"
 			$data = $select_all_test->select($args);
 			
-			var_dump($data);
+			//var_dump(array_column($data, "name"));
 		?>
 	</div>
 
@@ -42,6 +42,15 @@
 					id="name"
 					v-model="signUpName"
 					required
+				>
+
+				<label for="user_email">Email Address</label>
+				<input 
+					class="border border-black" 
+					type="email" 
+					id="user_email"
+					v-model="signUpEmail"
+					
 				>
 
 				<label for="password">Password</label>
@@ -92,6 +101,7 @@
 		//getting the name from sign up
 		signUpName: "",
 		signUpPassword: "",
+		signUpEmail: "",
 		loading: false,
 		auth: "",
 
@@ -150,6 +160,7 @@
 					/actions-ajax.php
 					?function=add_new_user_to_db
 					&username=${this.signUpName}
+					&email_address=${this.signUpEmail}
 					&password=${this.signUpPassword}
 				`;
 

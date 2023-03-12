@@ -49,33 +49,34 @@
 		//check no bad things in the username
 		$username = sanitize_string($_GET["username"]);
 		$password = sanitize_string($_GET["password"]);
-		//create a
-
+		$email_address = sanitize_string($_GET["email_address"]);
 
 		//if the return value is null - throw an error which will throw an error on the front end
-		if(is_null($username) || is_null($password))
+		if(is_null($username) || is_null($password) || $email_address)
 			return false;
 
 		//set up some args for the user_exists check
 		$args = [
 			"table_name"		=> "users",
-			"username"			=> $username
+			"username"			=> $username,
+			"email_address"		=> $email_address
 		];
 
 		//lets check here if the user already exists before creating a new user object
 		$database_connection = new SqlQuery();
 		$user_exists = $database_connection->user_exists($args);
 
-		if($user_exists){
+		var_dump($user_exists);
+
+		if(in_array("username", $user_exists)){
 			// this function will make a new username until there is one not already in the db
 			echo("sorry that username is taken, why not try?");
 			echo("<br>");
 			echo(suggest_new_username($username));
 			return;
 		}
-		else
-			echo("Success!");
-		
-		//$enter_user_to_db = new User();
-		//$enter_user_to_db = $enter_user_to_db->sign_user_up();
+		else{
+			//$enter_user_to_db = new User($args);
+			//$enter_user_to_db = $enter_user_to_db->sign_user_up();
+		}
 	}

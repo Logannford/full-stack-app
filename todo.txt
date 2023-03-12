@@ -24,3 +24,6 @@ create a sign up page which will use ajax to send over the credentials
 
 then a login in functionality 
 	- if no email is found in the db then redirect to the sign up page
+	- if the email is correct but the password has been entered wrong 3+ times
+		- send an email to the email email address 
+	- allow for password reset
