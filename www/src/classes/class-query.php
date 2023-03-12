@@ -105,7 +105,6 @@
 		 * the same username or email exists
 		 */
 		function user_exists(array $args){
-
 			//make a bool for if the user has been found
 			$credentials_found = [];
 			if(!$args || !$this->connection)
@@ -113,7 +112,7 @@
 
 			$this->table_name = $args["table_name"];
 			$this->username = sanitize_string($args["username"]);
-
+			//we do not always pass the email address through to here
 			if(array_key_exists("email_address", $args))
 				$this->email_address = $args["email_address"];
 
@@ -128,11 +127,11 @@
 
 			//now we have the data - lets check inside the array it returns
 			foreach($data as $sub_data):
-				if(isset($sub_data["name"]) && $this->username === $sub_data["name"])
-					array_push($credentials_found, "username");
+				if(isset($sub_data["name"]) && $this->username == $sub_data["name"])
+					array_push($credentials_found, "username_exists");
 
-				if(isset($sub_data["email_address"]) && $this->email_address === $sub_data["email"]) 
-					array_push($credentials_found, "email");
+				if(isset($sub_data["email"]) && $this->email_address == $sub_data["email"]) 
+					array_push($credentials_found, "email_exists");
 			endforeach;
 			
 			//free and close 

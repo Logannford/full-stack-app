@@ -16,7 +16,7 @@
 			//$args for the select query
 			$args = [
 				"select"		=> "all",
-				"table"			=> "main"
+				"table"			=> "users"
 			];
 			//setting up the query
 			$select_all_test = new SqlQuery();
@@ -24,7 +24,7 @@
 			//using the 'select' method and passing in 'SELECT * FROM main"
 			$data = $select_all_test->select($args);
 			
-			//var_dump(array_column($data, "name"));
+			var_dump($data);
 		?>
 	</div>
 
@@ -41,7 +41,7 @@
 					type="text" 
 					id="name"
 					v-model="signUpName"
-					required
+					
 				>
 
 				<label for="user_email">Email Address</label>
@@ -52,14 +52,14 @@
 					v-model="signUpEmail"
 					
 				>
-
+				{{ signUpEmail }}
 				<label for="password">Password</label>
 				<input 
 					class="border border-black" 
 					type="password" 
 					id="password"
 					v-model="signUpPassword"
-					required
+					
 				>
 
 				<button type="submit" class="border border-black rounded-md mt-4">
@@ -124,7 +124,7 @@
 			.then((data) => {
 				//create a person object
 				this.person = data;
-				//firstname = 
+				//first name = 
 				this.firstName = this.person[0].first_name;
 				//dob = 
 				this.dob = this.person[0].date_of_birth;

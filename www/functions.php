@@ -48,7 +48,7 @@ function suggest_new_username(string $username){
 
         $username_exists = $username_checker->user_exists($args);
 
-        if($username_exists) 
+        if(array_key_exists("username", $username_exists)) 
             $valid_new_username = false;
         else {
             $valid_new_username = true;
