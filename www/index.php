@@ -8,15 +8,18 @@
 	include "./src/global/header.php"; 
 
 	//including everything in the clases folder
-	foreach(glob("./src/classes/*.php") as $filename)
-		include $filename;
+	// foreach(glob("./src/classes/*.php") as $filename)
+	// 	include $filename;
+	if(!class_exists("SqlQuery"))
+		require_once("./src/classes/class-query.php");
+		
 	?>
 	<div class="flex gap-x-6">
 		<?php
 			//$args for the select query
 			$args = [
 				"select"		=> "all",
-				"table"			=> "main"
+				"table"			=> "users"
 			];
 			//setting up the query
 			$select_all_test = new SqlQuery();
@@ -24,7 +27,7 @@
 			//using the 'select' method and passing in 'SELECT * FROM main"
 			$data = $select_all_test->select($args);
 			
-			//var_dump($data);
+			var_dump($data);
 		?>
 	</div>
 
@@ -41,16 +44,25 @@
 					type="text" 
 					id="name"
 					v-model="signUpName"
-					required
+					
 				>
 
+				<label for="user_email">Email Address</label>
+				<input 
+					class="border border-black" 
+					type="email" 
+					id="user_email"
+					v-model="signUpEmail"
+					
+				>
+				{{ signUpEmail }}
 				<label for="password">Password</label>
 				<input 
 					class="border border-black" 
 					type="password" 
 					id="password"
 					v-model="signUpPassword"
-					required
+					
 				>
 
 				<button type="submit" class="border border-black rounded-md mt-4">
@@ -92,6 +104,7 @@
 		//getting the name from sign up
 		signUpName: "",
 		signUpPassword: "",
+		signUpEmail: "",
 		loading: false,
 		auth: "",
 
@@ -114,7 +127,7 @@
 			.then((data) => {
 				//create a person object
 				this.person = data;
-				//firstname = 
+				//first name = 
 				this.firstName = this.person[0].first_name;
 				//dob = 
 				this.dob = this.person[0].date_of_birth;
@@ -150,6 +163,7 @@
 					/actions-ajax.php
 					?function=add_new_user_to_db
 					&username=${this.signUpName}
+					&email_address=${this.signUpEmail}
 					&password=${this.signUpPassword}
 				`;
 

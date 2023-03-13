@@ -13,6 +13,7 @@
 		 */
 		public $scope;
 		public $username;
+		public $email_address;
 
 		//set the properties to these defaults if they are not passed into $scope
 		protected $data_select = "*";
@@ -104,38 +105,37 @@
 		 * the same username or email exists
 		 */
 		function user_exists(array $args){
-
 			//make a bool for if the user has been found
-			$username_exists = false;
+			$credentials_found = [
+					"username_exists" 	=> false,
+					"email_exists"		=> false
+				];
+
 			if(!$args || !$this->connection)
 				die();
 
 			$this->table_name = $args["table_name"];
 			$this->username = sanitize_string($args["username"]);
+			//we do not always pass the email address through to here
+			if(array_key_exists("email_address", $args))
+				$this->email_address = $args["email_address"];
 
-			//query
-			$db_query = "SELECT * FROM {$this->table_name}";
-			$query = mysqli_query($this->connection, $db_query);
+			//using the select method we make above
+			$args = [
+				"table"		=> $this->table_name
+			];
 
-			//empty array for the data 
-			$data = [];
-			while($row = mysqli_fetch_assoc($query))
-				$data[] = $row;
-
+			$db_query = new SqlQuery();
+			$data = $db_query->select($args);
 			//now we have the data - lets check inside the array it returns
-			$username_row = array_column($data, "name");
+			foreach($data as $sub_data):
+				if(isset($sub_data["name"]) && $this->username == $sub_data["name"])
+					$credentials_found["username_exists"] = true;
 
-			if(is_null($username_row))
-				return;
-
-			//lets make a way to suggest potential usernames if the username exists
-			if(in_array($this->username, $username_row, true))
-				return true;
+				if(isset($sub_data["email"]) && $this->email_address == $sub_data["email"]) 
+					$credentials_found["email_exists"] = true;
+			endforeach;
 			
-			//free and close 
-			mysqli_free_result($query);
-			mysqli_close($this->connection);
-			
-			return $username_exists;
+			return $credentials_found;
 		}
 	}

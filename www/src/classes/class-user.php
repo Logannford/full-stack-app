@@ -10,11 +10,13 @@
 		//make sure password is some-what secure
 		protected $password;
 
-		public function __construct($username, $email_address, $password){
+		public function __construct(array $args){
 			// create a connection on construct
 			parent::__construct();	
-			
-
+			//setters
+			$this->username 		= $args["username"];
+			$this->email_address 	= $args["email_address"];
+			$this->password 		= $args["password"];
 		}
 		/**
 		 * This method will only run AFTER we check if the user

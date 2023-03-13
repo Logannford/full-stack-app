@@ -2,6 +2,8 @@
 	
 	if(class_exists("SqlQuery"))
 		require_once("./src/classes/class-query.php");
+	if(class_exists("ApiRequest"))
+		require_once("./src/classes/class-api-request.php");
 /**
  * @param string $string
  * 
@@ -41,6 +43,9 @@ function suggest_new_username(string $username){
     while($valid_new_username == false){
         $new_username = "$username" . rand(0, 2000);
 
+		$random_words = new ApiRequest("https://random-word-api.herokuapp.com/word?number=10");
+		var_dump($random_words->make_request());
+
         $args = [
             "table_name"    => "users",
             "username"      => $new_username
@@ -48,7 +53,7 @@ function suggest_new_username(string $username){
 
         $username_exists = $username_checker->user_exists($args);
 
-        if($username_exists) 
+        if(array_key_exists("username", $username_exists)) 
             $valid_new_username = false;
         else {
             $valid_new_username = true;

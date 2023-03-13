@@ -9,6 +9,9 @@
 
 	if(!class_exists("SqlQuery"))
 		require_once("./src/classes/class-query.php");
+	
+	if(!class_exists("ApiRequest"))
+		require_once("./src/classes/class-api-request.php");
 
 	//checking which function the ajax is requesting
 	if(isset($_GET["function"])){
@@ -47,35 +50,38 @@
 	 */
 	function add_new_user_to_db(){
 		//check no bad things in the username
-		$username = sanitize_string($_GET["username"]);
+		$username_first_attempt = sanitize_string($_GET["username"]);
 		$password = sanitize_string($_GET["password"]);
-		//create a
-
+		$email_address = $_GET["email_address"];
 
 		//if the return value is null - throw an error which will throw an error on the front end
-		if(is_null($username) || is_null($password))
+		if(is_null($username_first_attempt) || is_null($password) || is_null($email_address))
 			return false;
 
 		//set up some args for the user_exists check
-		$args = [
+		$params = [
 			"table_name"		=> "users",
-			"username"			=> $username
+			"username"			=> $username_first_attempt,
+			"email_address"		=> $email_address
 		];
 
 		//lets check here if the user already exists before creating a new user object
 		$database_connection = new SqlQuery();
-		$user_exists = $database_connection->user_exists($args);
+		$user_exists = $database_connection->user_exists($params);
 
-		if($user_exists){
+		if($user_exists["username_exists"] == true){
 			// this function will make a new username until there is one not already in the db
 			echo("sorry that username is taken, why not try?");
 			echo("<br>");
-			echo(suggest_new_username($username));
+			echo(suggest_new_username($username_first_attempt));
 			return;
 		}
-		else
-			echo("Success!");
+		elseif($user_exists["email_exists"] == true)
+			echo("that email exists in the db, log in?");
+		else{
+			//$enter_user_to_db = new User($args);
+			//$enter_user_to_db = $enter_user_to_db->sign_user_up();
+			echo("success");
+		}
 		
-		//$enter_user_to_db = new User();
-		//$enter_user_to_db = $enter_user_to_db->sign_user_up();
 	}
