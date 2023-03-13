@@ -116,14 +116,16 @@
 			if(array_key_exists("email_address", $args))
 				$this->email_address = $args["email_address"];
 
-			//query
-			$db_query = "SELECT * FROM {$this->table_name}";
-			$query = mysqli_query($this->connection, $db_query);
+			//using the select method we make above
+			$args = [
+				"table"		=> $this->table_name
+			];
+
+			$db_query = new SqlQuery();
+			$data = $db_query->select($args);
 
 			//empty array for the data 
-			$data = [];
-			while($row = mysqli_fetch_assoc($query))
-				$data[] = $row;
+			var_dump($data);
 
 			//now we have the data - lets check inside the array it returns
 			foreach($data as $sub_data):
@@ -133,10 +135,6 @@
 				if(isset($sub_data["email"]) && $this->email_address == $sub_data["email"]) 
 					array_push($credentials_found, "email_exists");
 			endforeach;
-			
-			//free and close 
-			mysqli_free_result($query);
-			mysqli_close($this->connection);
 			
 			return $credentials_found;
 		}
