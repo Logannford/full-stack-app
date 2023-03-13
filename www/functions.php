@@ -34,7 +34,6 @@ function suggest_new_username(string $username){
         return;
 
     $username_checker = new SqlQuery();
-
     $valid_new_username = false;
 	/**
 	 * fine for now - eventually use this api - https://random-word-api.herokuapp.com/word?number=10

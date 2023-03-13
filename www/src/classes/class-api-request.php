@@ -2,9 +2,14 @@
 	/**
 	 * Class to make an api request using cURL
 	 * 
-	 * Simply pass in the url, and return format
+	 * Simply pass in the url, and a cURL request will give you back 
+	 * the data in json format - TODO: make more params to pass in
+	 * to alter the return format
+	 * 
+	 * Currently a class to preform simple curl request 
+	 * in the future, use abstraction and inheritance to extend this class
+	 * for other use cases
 	 */
-
 	class ApiRequest{
 		protected $api_url;
 
