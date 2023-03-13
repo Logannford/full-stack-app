@@ -14,12 +14,14 @@ create a sign up page which will use ajax to send over the credentials
 	- remember to use $_GET to get them from the url
 	- if the username exists
 		- run a function which will keep creating suggested names, then return them
+		- create a new class for randomWords for an api request
+			- have a method that generates and returns random words 
+			- try to use abstraction
 		
 	- then send a 2FA email on sign up 
 		- generate a rnd code for the user which expires after x amount of time
 	- get a nice loader for the ajax cos we're fancy
 	- create a new class for the user
-		- create a new table for them on sign up?
 		- will need to create connections between them and other users when they become friends
 
 then a login in functionality 
@@ -27,3 +29,12 @@ then a login in functionality
 	- if the email is correct but the password has been entered wrong 3+ times
 		- send an email to the email email address 
 	- allow for password reset
+
+	-- TO LINK THE DB TO THE LOGGED IN USER --
+	- create a unique session id
+	- link to the user that signed in
+	- use session storage
+		- create the unique id ON SIGNUP
+		- assign it to the user in the db
+		- use js to pass it through to session storage?
+		-- do more research on that

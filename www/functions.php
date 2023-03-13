@@ -41,6 +41,19 @@ function suggest_new_username(string $username){
     while($valid_new_username == false){
         $new_username = "$username" . rand(0, 2000);
 
+		//lets make a cURL request to the api
+
+		//initialize a cURL session
+		$curl_request = curl_init();
+		//setting the url we want to fetch from
+		curl_setopt($curl_request, CURLOPT_URL, "https://random-word-api.herokuapp.com/word?number=10");
+		//set the user agent
+		curl_setopt($curl_request, CURLOPT_RETURNTRANSFER, 1);
+		$response = curl_exec($curl_request);
+        curl_close($curl_request);
+
+		var_dump($response);
+
         $args = [
             "table_name"    => "users",
             "username"      => $new_username
