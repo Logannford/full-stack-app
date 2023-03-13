@@ -9,6 +9,9 @@
 
 	if(!class_exists("SqlQuery"))
 		require_once("./src/classes/class-query.php");
+	
+	if(!class_exists("ApiRequest"))
+		require_once("./src/classes/class-api-request.php");
 
 	//checking which function the ajax is requesting
 	if(isset($_GET["function"])){
@@ -64,20 +67,17 @@
 
 		//lets check here if the user already exists before creating a new user object
 		$database_connection = new SqlQuery();
-
 		$user_exists = $database_connection->user_exists($params);
 
-		var_dump($user_exists);
-
-		if(in_array("username_exists", $user_exists)){
+		if($user_exists["username_exists"] == true){
 			// this function will make a new username until there is one not already in the db
 			echo("sorry that username is taken, why not try?");
 			echo("<br>");
 			echo(suggest_new_username($username_first_attempt));
 			return;
 		}
-		elseif(in_array("email_exists", $user_exists))
-			echo("the email exists in the db");
+		elseif($user_exists["email_exists"] == true)
+			echo("that email exists in the db, log in?");
 		else{
 			//$enter_user_to_db = new User($args);
 			//$enter_user_to_db = $enter_user_to_db->sign_user_up();

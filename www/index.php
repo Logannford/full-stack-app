@@ -8,8 +8,11 @@
 	include "./src/global/header.php"; 
 
 	//including everything in the clases folder
-	foreach(glob("./src/classes/*.php") as $filename)
-		include $filename;
+	// foreach(glob("./src/classes/*.php") as $filename)
+	// 	include $filename;
+	if(!class_exists("SqlQuery"))
+		require_once("./src/classes/class-query.php");
+		
 	?>
 	<div class="flex gap-x-6">
 		<?php

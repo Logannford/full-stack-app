@@ -106,7 +106,11 @@
 		 */
 		function user_exists(array $args){
 			//make a bool for if the user has been found
-			$credentials_found = [];
+			$credentials_found = [
+					"username_exists" 	=> false,
+					"email_exists"		=> false
+				];
+
 			if(!$args || !$this->connection)
 				die();
 
@@ -123,17 +127,13 @@
 
 			$db_query = new SqlQuery();
 			$data = $db_query->select($args);
-
-			//empty array for the data 
-			var_dump($data);
-
 			//now we have the data - lets check inside the array it returns
 			foreach($data as $sub_data):
 				if(isset($sub_data["name"]) && $this->username == $sub_data["name"])
-					array_push($credentials_found, "username_exists");
+					$credentials_found["username_exists"] = true;
 
 				if(isset($sub_data["email"]) && $this->email_address == $sub_data["email"]) 
-					array_push($credentials_found, "email_exists");
+					$credentials_found["email_exists"] = true;
 			endforeach;
 			
 			return $credentials_found;
